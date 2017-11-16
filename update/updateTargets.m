@@ -32,7 +32,7 @@ for i=1:targetNum
         update=zeros(1,dim);
     else
         %update=(min(dist,speed)/dist)*direction;
-        update=(p.speed/dist)*direction;
+        update=(p.targetParameters.speed/dist)*direction;
     end
     newTargets(i,1:dim)=targets(i,1:dim)+update;
 end

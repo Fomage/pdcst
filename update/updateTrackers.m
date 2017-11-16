@@ -30,7 +30,7 @@ for i=1:trackerNum
         update=zeros(1,dim);
     else
         %update=(min(dist,speed)/dist)*direction;
-        update=(p.speed/dist)*direction;
+        update=(p.trackerParameters.speed/dist)*direction;
     end
     newTrackers(i,1:dim)=trackers(i,1:dim)+update;
 end

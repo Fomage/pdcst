@@ -1,10 +1,5 @@
 function newTrackers = updateTrackers(trackers,targets,p)
 %updateTrackers returns the new positions of trackers
-%parameters
-trackerParameters=[0 2 0 0 0];
-targetParameters=[-1 -3 0 0 0];
-wallParameters=[1 0 0 0 0];
-%function's body
 newTrackers=trackers(:,:);
 [trackerNum,dim]=size(trackers);
 targetNum=size(targets,1);
@@ -23,13 +18,13 @@ for i=1:trackerNum
     direction=zeros(1,dim);
     for j=1:trackerNum
         if j~=i
-            direction=direction-basicGradient(trackerParameters,trackers(i,1:dim),trackers(j,1:dim));
+            direction=direction-basicGradient(p.trackerParameters.tracker,trackers(i,1:dim),trackers(j,1:dim));
         end
     end
     for j=1:targetNum
-        direction=direction-basicGradient(targetParameters,trackers(i,1:dim),targets(j,1:dim));
+        direction=direction-basicGradient(p.trackerParameters.target,trackers(i,1:dim),targets(j,1:dim));
     end
-    direction=direction+wallGradient(wallParameters,trackers(i,1:dim),p.SizeOfEnvironment);
+    direction=direction+wallGradient(p.trackerParameters.wall,trackers(i,1:dim),p.SizeOfEnvironment);
     dist=norm(direction);
     if dist==0
         update=zeros(1,dim);

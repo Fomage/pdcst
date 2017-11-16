@@ -1,11 +1,5 @@
 function newTargets = updateTargets(trackers,targets,objectives,p)
 %updateTargets returns the new positions of targets
-%parameters
-trackerParameters=[3 0 0 0 0];
-targetParameters=[0 1 0 0 0];
-objectivesParameters=[0 -3 0 0 0];
-wallParameters=[2 0 0 0 0];
-%function's body
 newTargets=targets(:,:);
 [targetNum,dim]=size(targets);
 trackerNum=size(trackers,1);
@@ -18,21 +12,21 @@ for i=1:targetNum
 %     direction=objectivePos-targets(i,1:dim);
     direction=zeros(1,dim);
     for j=1:trackerNum
-        direction=direction-basicGradient(trackerParameters,targets(i,1:dim),trackers(j,1:dim));
+        direction=direction-basicGradient(p.targetParameters.tracker,targets(i,1:dim),trackers(j,1:dim));
     end
     for j=1:targetNum
         if j~=i
-            direction=direction-basicGradient(targetParameters,targets(i,1:dim),targets(j,1:dim));
+            direction=direction-basicGradient(p.targetParameters.target,targets(i,1:dim),targets(j,1:dim));
         end
     end
     if targets(i,dim+2)==1
         for j=1:objectiveNum-1% ignoring the base
-            direction=direction-basicGradient(objectivesParameters,targets(i,1:dim),objectives(j,1:dim));
+            direction=direction-basicGradient(p.targetParameters.objective,targets(i,1:dim),objectives(j,1:dim));
         end
     elseif targets(i,dim+2)==0
-        direction=direction-basicGradient(objectivesParameters,targets(i,1:dim),objectives(objectiveNum,1:dim));
+        direction=direction-basicGradient(p.targetParameters.objective,targets(i,1:dim),objectives(objectiveNum,1:dim));
     end
-    direction=direction+wallGradient(wallParameters,targets(i,1:dim),p.SizeOfEnvironment);
+    direction=direction+wallGradient(p.targetParameters.wall,targets(i,1:dim),p.SizeOfEnvironment);
     dist=norm(direction);
     if dist==0
         update=zeros(1,dim);

@@ -76,36 +76,32 @@
 \begin{column}{.465\textwidth} % The first column
 
 %----------------------------------------------------------------------------------------
-%	INTRODUCTION
+%	CONTEXTE
 %----------------------------------------------------------------------------------------
             
-\begin{block}{Introduction}
+\begin{block}{{\Large Contexte}}
 
+Imaginons que dans le ciel de Tokyo volent deux types de drones.\\
 \begin{itemize}
-\item \justify Les bandits aussi sont friands de nouvelles technologies. Que se passera-t-il quand les yakuzas de Tokyo remplaceront leurs dealers de coca\"{i}ne par des drones ? Vraisemblablement, les policiers japonais leur renverront la pareille et on assistera à des courses-poursuites a\'eriennes de drones. Notre \'etude de cas a pour objectif de mod\'eliser une telle situation à l'aide de syst\`emes multi-agents. Un syst\`eme multi-agents, c'est simplement un syst\`eme constitu\'e de plusieurs agents qui interagissent d'une fa\c{c}on ou d'une autre. Dans notre cas, les agents sont de deux types :
-\begin{itemize}
-\item Drones policiers
 \item Drones yakuzas
-\end{itemize}
-\item Les yakuzas veulent livrer de la drogue \`a certains points strat\'egiques, tout en \'evitant les policiers. Les policiers veulent arr\^eter les yakuzas. Tous cherchent \`a \'eviter les collisions.
-\end{itemize}
-
-\end{block}
-
-%----------------------------------------------------------------------------------------
-%	OBJECTIVES
-%----------------------------------------------------------------------------------------
-
-\begin{block}{Objectifs}
 \begin{itemize}
-\item Parvenir \`a montrer que les strat\'egies optimales pour un camp comme pour l'autre pr\'esentent des comportements de groupe.
-\item Dans ce but, il va falloir bien poser le probl\`eme : 
-\begin{itemize}
-\item Qu'est-ce qu'un comportement de groupe ?
-\item[] $\to$ Comment le mesurer ?
-\item Qu'est-ce qu'une strat\'egie optimale ?
-\item[] $\to$ Quelle fonction objectif maximiser ?
+\item \textit{Objectif} : livrer de la coca\"{i}ne \`a certains points strat\'egiques
+\item \textit{Contraintes} : \'eviter les policiers et les collisions
 \end{itemize}
+\item Drones policiers
+\begin{itemize}
+\item \textit{Objectif} : capturer les yakuzas
+\item \textit{Contraintes} : \'eviter les collisions
+\end{itemize}
+\end{itemize} \mbox{} \\
+{\large \textbf{Objectifs de l'\'etude}} \\
+\begin{itemize}
+\item Bien poser le probl\`eme : 
+\begin{itemize}
+\item Qu'est-ce qu'un comportement de groupe ? Que mesurer ?
+\item Qu'est-ce qu'une strat\'egie optimale ? Que maximiser ?
+\end{itemize}
+\item Montrer que des comportements de groupe \'emergent dans les strat\'egies optimales
 \end{itemize}
 \end{block}
 
@@ -113,27 +109,27 @@
 %	SIMULATIONS
 %----------------------------------------------------------------------------------------
 
-\begin{block}{Premi\`eres simulations}
+\begin{block}{{\Large Premi\`eres simulations}}
 \begin{figure}[h!]
    \begin{minipage}[b]{0.50\linewidth}
       \centering \includegraphics[scale=1.4]{simu_0.png}
       \caption{\text{ }$0$ it\'erations}
    \end{minipage}\hfill
    \begin{minipage}[b]{0.50\linewidth}   
-      \centering \includegraphics[scale=1.4]{simu_300.png}
-      \caption{\text{ } $300$ it\'erations}
-   \end{minipage}
-   \begin{minipage}[b]{0.50\linewidth}
       \centering \includegraphics[scale=1.4]{simu_100.png}
-      \caption{\text{ } $100$ it\'erations}      
-   \end{minipage}\hfill
-   \begin{minipage}[b]{0.50\linewidth}   
-      \centering \includegraphics[scale=1.4]{simu_400.png}
-      \caption{\text{ } $400$ it\'erations}      
+      \caption{\text{ } $100$ it\'erations}
    \end{minipage}
    \begin{minipage}[b]{0.50\linewidth}
       \centering \includegraphics[scale=1.4]{simu_200.png}
-      \caption{\text{ } $200$ it\'erations}
+      \caption{\text{ } $200$ it\'erations}      
+   \end{minipage}\hfill
+   \begin{minipage}[b]{0.50\linewidth}   
+      \centering \includegraphics[scale=1.4]{simu_300.png}
+      \caption{\text{ } $300$ it\'erations}      
+   \end{minipage}
+   \begin{minipage}[b]{0.50\linewidth}
+      \centering \includegraphics[scale=1.4]{simu_400.png}
+      \caption{\text{ } $400$ it\'erations}
    \end{minipage}\hfill
    \begin{minipage}[b]{0.50\linewidth}   
       \centering \includegraphics[scale=1.4]{simu_500.png}
@@ -156,63 +152,60 @@
 %	MATHEMATICAL SECTION
 %----------------------------------------------------------------------------------------
 
-\begin{block}{Approche par potentiels}
+\begin{block}{{\Large Approche par potentiels}}
 
 \begin{itemize}
-\item Un policier $\overline{p}$ est soumis \`a :
-\begin{itemize}
-\item Un potentiel attractif vers chaque yakuza $U_{\to y}$
-\item Un potentiel r\'epulsif depuis chaque \alert{autre} policier $U_{\gets p}$
-\item Un potentiel r\'epulsif pour \'eviter l'environnement $U_{\gets E}$.
-\end{itemize}
-\item Le potentiel total du point de vue de $\overline{p}$ est de la forme
+\item Potentiel du point de vue d'un policier $\overline{p}$ :
 \begin{align*}
 U_{\overline{p}} = \sum_{y \in Y} U_{\to y} + \sum_{p \in P\setminus\{\overline{p}\}} U_{\gets p} + U_{\gets E}
 \end{align*}
-\item Un yakuza $\overline{y}$ est soumis \`a des potentiels similaires, plus :
-\begin{itemize}
-\item Un potentiel attractif vers un point objectif $V_{\to O}$
-\end{itemize}
-\item Le potentiel total du point de vue de $\overline{y}$ est de la forme
+\item Potentiel du point de vue d'un yakuza $\overline{y}$ :
 \begin{align*}
 V_{\overline{y}} = V_{\to O} + \sum_{y \in Y \setminus \{\overline{y}\}} V_{\gets y} + \sum_{p \in P} V_{\gets p} + V_{\gets E}
 \end{align*}
+\item D\'eplacement dans la direction du gradient de son potentiel
+\item Vitesse born\'ee
 \end{itemize}
-Dans notre mod\'elisation, chaque agent se d\'eplace dans la direction du gradient de son potentiel. La vitesse d\'epend de la norme de ce gradient mais reste born\'ee.
 \end{block}
-
-%---------------------------------------------------------------------------------------
-%    SCHEME
-%---------------------------------------------------------------------------------------
-
-\begin{block}{Sch\'ema}
-
 \begin{figure}
 \includegraphics[width=0.8\linewidth]{potentials.png}
-\caption{\text{ } Lignes de niveau des potentiels}
+\caption{\text{ } Potentiel d'un policier (pics = autres policiers, puits = yakuzas)}
 \end{figure}
-
-\end{block}
 
 %----------------------------------------------------------------------------------------
 %	TO BE CONTINUED
 %----------------------------------------------------------------------------------------
+{
+\setbeamercolor{normal text}{fg=black, bg=white}
+\setbeamercolor{block body}{bg=dirtlight,fg=black}
+\setbeamercolor{block title}{fg=black,bg=dirt}
+\setbeamercolor{structure}{fg=dirtdark}
+\begin{block}{{\Large Approche originale}}
 
-\begin{block}{\`A suivre}
+
 
 \begin{itemize}
-\item En quelque sorte, les potentiels correspondent \`a l'existence d'un champ de type \'electrique. Pour permettre des mouvements de rotations, et esp\'erer voir appara\^itre des strat\'egies de contournement et d'encerclement, il peut \^etre pertinent d'ajouter un champ de type magn\'etique. Pour cela, des m\'ethodes inspir\'ees de la th\'eorie des plasmas peuvent \^etre utiles.
-\item Une fois la fonction objectif d\'efinie, il serait pertinent d'utiliser de l'apprentissage afin de chercher les strat\'egies optimales.
+\item Potentiels $\sim$ champ \'electrique $\to$ ajout d'un champ magn\'etique
+\begin{itemize}
+\item \textit{Objectif} : permettre des man\oe uvres de contournement
+\item \textit{Approche} : physique des plasmas
+\end{itemize}
+\item Choix des param\`etres
+\begin{itemize}
+\item \textit{Objectif} : trouver les strat\'egies optimales
+\item \textit{Approche} : apprentissage adversorial
+\end{itemize}
 \end{itemize}
 
 \end{block}
+}
 
 %----------------------------------------------------------------------------------------
 %	REFERENCES
 %----------------------------------------------------------------------------------------
 
-\begin{block}{R\'ef\'erences}
-Merci \`a Matlab.
+\begin{block}{{\Large R\'ef\'erences}}
+Merci \`a Cristina Maniu qui nous a efficacement supervis\'es. Merci \'egalement \`a Matlab.
 %\nocite{*} % Insert publications even if they are not cited in the poster
 %\small{\bibliographystyle{unsrt}
 %\bibliography{sample}}

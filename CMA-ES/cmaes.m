@@ -102,7 +102,6 @@ for g=1:MaxIt
             BestSol=pop(i);
         end
     end
-    LastMean=M(g).Position;
     
     % Sort Population
     Costs=[pop.Cost];
@@ -111,9 +110,11 @@ for g=1:MaxIt
   
     % Save Results
     BestCost(g)=BestSol.Cost;
+    LastMean=M(g);
     
     % Display Results
-    disp(['Iteration ' num2str(g) ': Best Cost = ' num2str(BestCost(g)) ', Mean Cost = ' num2str(CostFunction(M(g).Position))]);
+    disp(['Iteration ' num2str(g) ': Best Cost = ' num2str(BestCost(g))]);
+    %', Mean Cost = ' num2str(CostFunction(M(g).Position))
     
     % Exit At Last Iteration
     if g==MaxIt

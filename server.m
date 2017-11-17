@@ -24,8 +24,16 @@ p=initParameters(p);% manually sets the potentials' parameters
 m=simulate(p);
 
 %% optimize parameters
-[best,mean]=cmaes(p,2,1);
-
+optiMaxIter=10;
+pMat=repmat(p,optiMaxIter);
+for i=1:optiMaxIter
+    [best,mean]=cmaes(p,2,10);
+    p=xToP(p,mean.Position,2);
+    [best,mean]=cmaes(p,1,10);
+    p=xToP(p,mean.Position,1);
+    pMat(i)=p;
+    save('parametersOpti.mat','pMat');
+end
 %% map performances
 p.display=false;
 [X,Y]=meshgrid(1:10,1:20);

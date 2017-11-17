@@ -24,7 +24,7 @@ p=initParameters(p);% manually sets the potentials' parameters
 m=simulate(p);
 
 %% optimize parameters
-bestParams=cmaes(p,2,1);
+[best,mean]=cmaes(p,2,1);
 
 %% map performances
 p.display=false;

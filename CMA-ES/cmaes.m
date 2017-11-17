@@ -10,7 +10,7 @@
 % 
 % Contact Info: sm.kalami@gmail.com, info@yarpiz.com
 %
-function BestSol = cmaes(p,side,lambdaMult)
+function [BestSol,LastMean] = cmaes(p,side,lambdaMult)
 %% Problem Settings
 
 if side==1
@@ -102,6 +102,7 @@ for g=1:MaxIt
             BestSol=pop(i);
         end
     end
+    LastMean=M(g).Position;
     
     % Sort Population
     Costs=[pop.Cost];
@@ -118,7 +119,7 @@ for g=1:MaxIt
     if g==MaxIt
         break;
     end
-        
+
     % Update Mean
     M(g+1).Step=0;
     for j=1:mu

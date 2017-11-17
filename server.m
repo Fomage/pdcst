@@ -6,8 +6,8 @@ addpath(genpath(folder), '-end');
 rmpath(fullfile(folder,'.git'));
 
 % p stand for parameters
-p.TrackerNum = 1;
-p.TargetNum = 19;
+p.TrackerNum = 4;
+p.TargetNum = 4;
 p.ObjectiveNum = 4;
 p.AgentSize=100; % Size of agents in plot
 p.Dimension=2; % Select Dim
@@ -18,9 +18,13 @@ p.radius=.1; % agents' radius
 p.Max_It=5000; % Max iteration of agents work
 p.refreshRate=5;
 p.display=true;
+p=initParameters(p);% manually sets the potentials' parameters
 
 %% single run
 m=simulate(p);
+
+%% optimize parameters
+bestParams=cmaes(p,2);
 
 %% map performances
 p.display=false;

@@ -8,7 +8,6 @@ if p.Dimension==2
 else
     Dim='3';
 end
-p=initParameters(p);
 [trackers,targets,objectives,neutrals]=initMat(p); % Make 1st position of agents
 % first plot
 if p.display

@@ -10,7 +10,7 @@
 % 
 % Contact Info: sm.kalami@gmail.com, info@yarpiz.com
 %
-function BestSol = cmaes(p,side)
+function BestSol = cmaes(p,side,lambdaMult)
 %% Problem Settings
 
 if side==1
@@ -31,8 +31,12 @@ VarMax= 10;             % Upper Bound of Decision Variables
 % Maximum Number of Iterations
 MaxIt=300;
 
+% Termination criteria tolerance
+Tol=1e-16;
+
 % Population Size (and Number of Offsprings)
-lambda=(4+round(3*log(nVar)))*10;
+lambda=(4+round(3*log(nVar)))*lambdaMult;
+disp(['lambda ' num2str(lambda)]);
 
 % Number of Parents
 mu=round(lambda/2);
@@ -108,7 +112,7 @@ for g=1:MaxIt
     BestCost(g)=BestSol.Cost;
     
     % Display Results
-    disp(['Iteration ' num2str(g) ': Best Cost = ' num2str(BestCost(g))]);
+    disp(['Iteration ' num2str(g) ': Best Cost = ' num2str(BestCost(g)) ', Mean Cost = ' num2str(CostFunction(M(g).Position))]);
     
     % Exit At Last Iteration
     if g==MaxIt
@@ -150,6 +154,56 @@ for g=1:MaxIt
         C{g+1}=V*E/V;
     end
     
+    % Termination criteria
+    % NoEffectAxis
+    normV=zeros(size(V));
+    for i=1:nVar
+        normV(i,:)=(1/norm(V(i,:)))*V(i,:);
+    end
+    if norm(.1*sigma{g+1}*E*normV) < Tol
+        disp('NoEffectAxis');
+        break
+    end
+    % NoEffectCoord
+    b=false;
+    for i=1:nVar
+        if norm(.2*sigma{g+1}*C{g+1}(i,i)) < Tol
+            disp('NoEffectCoord');
+            b=true;
+            break
+        end
+    end
+    if b
+        break
+    end
+    % ConditionCov
+    minE=E(1,1);
+    maxE=E(1,1);
+    for i=2:nVar
+        minE=min(minE,E(i,i));
+        maxE=max(maxE,E(i,i));
+    end
+    if maxE/minE > 1e14
+        disp('ConditionCov');
+    end
+    % EqualFunValue
+    backwardHistoryBound=10+ceil(30*nVar/lambda);
+    if g > backwardHistoryBound
+        ref=BestCost(g-backwardHistoryBound);
+        b=true;
+        for i=1:backwardHistoryBound
+            b=b && ref==BestCost(g-backwardHistoryBound+i);
+        end
+        if b
+            disp('EqualFunValue');
+            break
+        end
+    end
+    % TolXUp
+    if sigma{g+1}*maxE/sigma0 > 1e4
+        disp('TolXUp');
+        break
+    end
 end
 
 %% Display Results

@@ -7,7 +7,7 @@ rmpath(fullfile(folder,'.git'));
 
 % p stand for parameters
 p.TrackerNum = 4;
-p.TargetNum = 4;
+p.TargetNum = 8;
 p.ObjectiveNum = 4;
 p.AgentSize=100; % Size of agents in plot
 p.Dimension=2; % Select Dim
@@ -23,16 +23,42 @@ p=initParameters(p);% manually sets the potentials' parameters
 %% single run
 m=simulate(p);
 
-%% optimize parameters
-optiMaxIter=10;
+%% successive parameters optimization
+optiMaxIter=20;
 pMat=repmat(p,optiMaxIter);
 for i=1:optiMaxIter
-    [best,mean]=cmaes(p,2,10);
+    [best,mean]=cmaes(p,2,16);
     p=xToP(p,mean.Position,2);
-    [best,mean]=cmaes(p,1,10);
+    [best,mean]=cmaes(p,1,16);
     p=xToP(p,mean.Position,1);
     pMat(i)=p;
     save('parametersOpti.mat','pMat');
+end
+%% optimal parameters versus target numbers
+%variable targets number
+p=initParameters(p);
+maxTargets=20;
+pMat=repmat(p,maxTargets);
+for i=1:maxTargets
+    disp(['number of drones: ' num2str(i)]);
+    p.TargetNum=i;
+    [best,mean]=cmaes(p,2,8);
+    p=xToP(p,mean.Position,2);
+    pMat(i)=p;
+    save('targetNumbers','pMat');
+end
+%variable tracker number
+p=initParameters(p);
+p.TargetNum=8;
+maxTrackers=10;
+pMat=repmat(p,maxTrackers);
+for i=1:maxTrackers
+    disp(['number of drones: ' num2str(i)]);
+    p.TrackerNum=i;
+    [best,mean]=cmaes(p,1,8);
+    p=xToP(p,mean.Position,1);
+    pMat(i)=p;
+    save('trackerNumbers','pMat');
 end
 %% map performances
 p.display=false;

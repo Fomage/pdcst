@@ -38,7 +38,7 @@ end
 %% optimal parameters versus target numbers
 %variable targets number
 p=initParameters(p);
-maxTargets=20;
+maxTargets=10;
 pMat=repmat(p,maxTargets);
 for i=1:maxTargets
     disp(['number of drones: ' num2str(i)]);
@@ -48,6 +48,17 @@ for i=1:maxTargets
     pMat(i)=p;
     save('targetNumbers','pMat');
 end
+%% single point optimization
+p=initParameters(p);
+maxTargets=10;
+load('targetNumbers');
+i=7;
+disp(['number of drones: ' num2str(i)]);
+p.TargetNum=i;
+[best,mean]=cmaes(p,2,16);
+p=xToP(p,mean.Position,2);
+pMat(i)=p;
+save('targetNumbers','pMat');
 %% variable tracker number
 p=initParameters(p);
 p.TargetNum=8;

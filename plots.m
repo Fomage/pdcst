@@ -52,8 +52,8 @@ refline([0 0]);
 
 %% simulate single point
 close all;
-load('trackerNumbers');
-p=pMat(3);
+load('targetNumbers');
+p=pMat(7);
 p.display=true;
 p.refreshRate=1;
 simulate(p);

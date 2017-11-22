@@ -1,10 +1,11 @@
+%% clears and paths addition
 clc;
 clear all;
 close all;
 folder = pwd;
 addpath(genpath(folder), '-end');
 rmpath(fullfile(folder,'.git'));
-
+%% parameters initialization
 % p stand for parameters
 p.TrackerNum = 4;
 p.TargetNum = 8;
@@ -47,7 +48,7 @@ for i=1:maxTargets
     pMat(i)=p;
     save('targetNumbers','pMat');
 end
-%variable tracker number
+%% variable tracker number
 p=initParameters(p);
 p.TargetNum=8;
 maxTrackers=10;

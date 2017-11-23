@@ -26,6 +26,7 @@ if p.display
         drawnow;
         frame=getframe(h);
         im=frame2im(frame);
+        set(gcf,'color','w');
         [imind,cm]=rgb2ind(im,256);
         imwrite(imind,cm,filename,'gif','Loopcount',inf,'DelayTime',.04);
     end
@@ -55,6 +56,7 @@ for it=1:p.Max_It
             drawnow;
             frame=getframe(h);
             im=frame2im(frame);
+            set(gcf,'color','w');
             [imind,cm]=rgb2ind(im,256);
             imwrite(imind,cm,filename,'gif','WriteMode','append','DelayTime',.04);
         end

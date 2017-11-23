@@ -57,6 +57,6 @@ close all;
 load('targetNumbers');
 p=pMat(8);
 p.saveGif=true;
-p.refreshRate=1;
+p.refreshRate=5;
 p.display=true;
 simulate(p);

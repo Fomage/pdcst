@@ -24,6 +24,7 @@ for i=1:8
 end
 legend('tracker2','tracker1','target2','target1','obj2','obj1','wall2','wall1');
 refline([0 0]);
+hold off;
 
 %% plot trackers
 close all;
@@ -49,11 +50,13 @@ for i=1:6
 end
 legend('tracker2','tracker1','target2','target1','wall2','wall1');
 refline([0 0]);
+hold off;
 
 %% simulate single point
 close all;
 load('targetNumbers');
-p=pMat(7);
-p.display=true;
+p=pMat(8);
+p.saveGif=true;
 p.refreshRate=1;
+p.display=true;
 simulate(p);

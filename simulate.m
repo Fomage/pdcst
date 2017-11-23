@@ -20,6 +20,15 @@ if p.display
        otherwise
             error('myApp:argChk', 'Wrong number of input Dim')
     end
+    if p.saveGif
+        h=figure;
+        filename='test.gif';
+        drawnow;
+        frame=getframe(h);
+        im=frame2im(frame);
+        [imind,cm]=rgb2ind(im,256);
+        imwrite(imind,cm,filename,'gif','Loopcount',inf,'DelayTime',.04);
+    end
 end
 % This codes update the position of agents and using the sample changing
 % position like 'UpdatePos' function .
@@ -42,6 +51,13 @@ for it=1:p.Max_It
         end
         disp(['Iteration :' num2str(it) ' , deliveries made:' num2str(m.deliveries)]);
         pause(0.05);
+        if p.saveGif
+            drawnow;
+            frame=getframe(h);
+            im=frame2im(frame);
+            [imind,cm]=rgb2ind(im,256);
+            imwrite(imind,cm,filename,'gif','WriteMode','append','DelayTime',.04);
+        end
     end
 end
 m.iterations=it;

@@ -85,3 +85,6 @@ for i=1:20
     end
 end
 surf(X,Y,Z);
+
+%% genetic optimization
+
